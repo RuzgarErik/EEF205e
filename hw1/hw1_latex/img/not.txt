@@ -1,0 +1,4 @@
+ANDGATEPRIMITIVE1.png oluşturmak için sadece and gate primitive bölümünden seçildi
+ANDGATEWITHSIGNALS oluşturmak için bütün sinyaler ve primitive seçildi
+
+rtlall oluşturmak için bütün seçenekler ağaç da dahil olmak üzere seçildi
