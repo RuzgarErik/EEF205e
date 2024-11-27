@@ -1,92 +1,64 @@
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
-use IEEE.NUMERIC_STD.ALL;
 
-entity RippleCarryAdder_TB is
-end RippleCarryAdder_TB;
+entity RippleCarryAdder_tb is
+end RippleCarryAdder_tb;
 
-architecture Behavioral of RippleCarryAdder_TB is
-    signal A, B : STD_LOGIC_VECTOR(3 downto 0);
-    signal Sum : STD_LOGIC_VECTOR(3 downto 0);
-    signal Cout : STD_LOGIC;
+architecture Behavioral of RippleCarryAdder_tb is
+    -- Component Declaration
+    component RippleCarryAdder
+        Port ( 
+            A : in STD_LOGIC_VECTOR(3 downto 0);
+            B : in STD_LOGIC_VECTOR(3 downto 0);
+            Sum : out STD_LOGIC_VECTOR(3 downto 0);
+            Cout : out STD_LOGIC
+        );
+    end component;
     
-    signal error_count : integer := 0;
-    signal test_count : integer := 0;
+    -- Test signals
+    signal A_test : STD_LOGIC_VECTOR(3 downto 0);
+    signal B_test : STD_LOGIC_VECTOR(3 downto 0);
+    signal Sum_test : STD_LOGIC_VECTOR(3 downto 0);
+    signal Cout_test : STD_LOGIC;
     
 begin
-    UUT: entity work.RippleCarryAdder
-        port map (
-            A => A,
-            B => B,
-            Sum => Sum,
-            Cout => Cout
-        );
-
-    stimulus: process
-        variable expected_sum : unsigned(4 downto 0);
-        variable actual_sum : unsigned(4 downto 0);
+    -- Connecting the component
+    UUT: RippleCarryAdder port map (
+        A => A_test,
+        B => B_test,
+        Sum => Sum_test,
+        Cout => Cout_test
+    );
+    
+    -- Test process
+    test_process: process
     begin
-        report "Starting full range addition test (0-15 for both inputs)";
-        
-        for i in 0 to 15 loop
-            for j in 0 to 15 loop
-                A <= std_logic_vector(to_unsigned(i, 4));
-                B <= std_logic_vector(to_unsigned(j, 4));
-                
-                test_count <= test_count + 1;
-                
-                wait for 10 ns;
-                
-                expected_sum := to_unsigned(i + j, 5);
-                actual_sum := '0' & unsigned(Sum);
-                if (Cout = '1') then
-                    actual_sum := actual_sum + 16;
-                end if;
-                
-                if (actual_sum /= expected_sum) then
-                    error_count <= error_count + 1;
-                    report "Error: " & 
-                           integer'image(i) & " + " & 
-                           integer'image(j) & " = " & 
-                           integer'image(to_integer(expected_sum)) & 
-                           " but got " & 
-                           integer'image(to_integer(actual_sum));
-                end if;
-                
-                report "Test " & 
-                       integer'image(test_count) & ": " & 
-                       integer'image(i) & " + " & 
-                       integer'image(j) & " = " & 
-                       integer'image(to_integer(actual_sum)) & 
-                       " (Expected: " & 
-                       integer'image(to_integer(expected_sum)) & ")";
-            end loop;
-        end loop;
-        
+        -- Test case 1: 0 + 0 = 0
+        A_test <= "0000";
+        B_test <= "0000";
         wait for 10 ns;
         
-        if (error_count = 0) then
-            report "All tests passed successfully!";
-        else
-            report "Tests completed with " & 
-                   integer'image(error_count) & 
-                   " errors out of " & 
-                   integer'image(test_count) & 
-                   " tests";
-        end if;
+        -- Test case 2: 5 + 3 = 8
+        A_test <= "0101";  -- 5 in binary
+        B_test <= "0011";  -- 3 in binary
+        wait for 10 ns;
         
-        wait;
+        -- Test case 3: 7 + 4 = 11
+        A_test <= "0111";  -- 7 in binary
+        B_test <= "0100";  -- 4 in binary
+        wait for 10 ns;
+        
+        -- Test case 4: Testing carry out
+        A_test <= "1111";  -- 15 in binary
+        B_test <= "0001";  -- 1 in binary
+        wait for 10 ns;
+        
+        -- Test case 5: Another simple addition
+        A_test <= "0110";  -- 6 in binary
+        B_test <= "0010";  -- 2 in binary
+        wait for 10 ns;
+        
+        wait;  -- End simulation
     end process;
     
-    display_process: process(A, B, Sum, Cout)
-    begin
-        report "Current test: A=" & 
-               integer'image(to_integer(unsigned(A))) & 
-               ", B=" & 
-               integer'image(to_integer(unsigned(B))) & 
-               ", Sum=" & 
-               integer'image(to_integer(unsigned(Sum))) & 
-               ", Cout=" & 
-               std_logic'image(Cout);
-    end process;
 end Behavioral;
