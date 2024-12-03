@@ -1,6 +1,6 @@
 
 
-\documentclass[table,draft ]{article}
+\documentclass[table ]{article}
 
 \usepackage{graphicx}			% Use this package to include images
 \usepackage{amsmath}			% A library of many standard math expressions
@@ -538,10 +538,135 @@
 
 
 
+
 \end{enumerate}%first part questions
 
+\newpage
+
+\section*{Part 2}
+
+\subsection*{COMP\_1\_BIT Module}
+
+\subsubsection*{VHDL Code}
+
+
+\begin{center} % Center the entire code block
+    \lstset{
+  caption= COMP\_1\_BIT.vhd, 
+  basicstyle=\footnotesize, frame=tb,
+  xleftmargin=.2\textwidth, xrightmargin=.2\textwidth
+}
+    \lstinputlisting[style=vhdlstyle]{code/COMP_1_bit.vhd}
+\end{center}
+
+\subsubsection*{VHDL Testbench Code}
+
+
+\begin{center} % Center the entire code block
+    \lstset{
+  caption= COMP\_1\_BIT\_tb.vhd, 
+  basicstyle=\footnotesize, frame=tb,
+  xleftmargin=.2\textwidth, xrightmargin=.2\textwidth
+}
+    \lstinputlisting[style=vhdlstyle]{code/COMP_1_bit_tb.vhd}
+\end{center}
+
+\subsubsection*{RTL Schematic}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\textwidth]{img/COMP_1_BIT_RTL.png}
+    \caption{RTL Schematic of COMP\_1\_BIT}
+\end{figure}
+
+\subsubsection*{Simulation Results}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{img/COMP_1_BIT_SIM.png}
+    \caption{Simulation Results of COMP\_1\_BIT}
+\end{figure}
 
 
 
+\subsection*{CONNECT Module}
+
+\subsubsection*{VHDL Code}
+
+\begin{center}[H] % Center the entire code block
+    \lstset{
+  caption= CONNECT.vhd, 
+  basicstyle=\footnotesize, frame=tb,
+  xleftmargin=.2\textwidth, xrightmargin=.2\textwidth
+}
+    \lstinputlisting[style=vhdlstyle]{code/CONNECT.vhd}
+\end{center}
+
+\subsubsection*{RTL Schematic}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=.6\textwidth]{img/connect_rtl.png}
+    \caption{RTL Schematic of CONNECT}
+\end{figure}
+
+\subsection*{CON\_COMP\_1\_BIT Module}
+
+\subsubsection*{VHDL Code}
+
+\begin{center}[H] % Center the entire code block
+    \lstset{
+  caption= CON\_COMP\_1\_BIT.vhd, 
+  basicstyle=\footnotesize, frame=tb,
+  xleftmargin=.2\textwidth, xrightmargin=.2\textwidth
+}
+    \lstinputlisting[style=vhdlstyle]{code/CON_COMP_1_BIT.vhd}
+\end{center}
+
+\subsection*{POZ\_COMPARE Module}
+
+\subsubsection*{VHDL Code}
+
+\begin{center} % Center the entire code block
+    \lstset{
+  caption= POZ\_COMPARE.vhd, 
+  basicstyle=\footnotesize, frame=tb,
+  xleftmargin=.2\textwidth, xrightmargin=.2\textwidth
+}
+    \lstinputlisting[style=vhdlstyle]{code/POZ_COMPARE.vhd}
+\end{center}
+
+\subsubsection*{VHDL Testbench Code}
+
+\begin{center} % Center the entire code block
+    \lstset{
+  caption= POZ\_COMPARE\_tb.vhd, 
+  basicstyle=\footnotesize, frame=tb,
+  xleftmargin=.2\textwidth, xrightmargin=.2\textwidth
+}
+    \lstinputlisting[style=vhdlstyle]{code/POZ_COMPARE_tb.vhd}
+\end{center}
+
+\subsubsection*{RTL Schematic}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{img/POS_COMPARE_RTL.png}
+    \caption{RTL Schematic of POZ\_COMPARE}
+\end{figure}
+
+\subsubsection*{Simulation Results}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{img/POS_COMPARE_SIM.png}
+    \caption{Simulation Results of POZ\_COMPARE}
+
+\end{figure}
+
+
+\subsection*{Results}
+
+It can be seen from the final simulation that the 4 bit comperator works successfully and the output is as expected. 
 
 \end{document}
