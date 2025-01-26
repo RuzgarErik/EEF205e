@@ -308,7 +308,7 @@
 
 
 
-\section{Question 3}
+\section*{Question 3}
 
 \textbf{Part A} \\
 
@@ -571,7 +571,7 @@ So the circuit can be implemented as follows:
 \end{equation}
 
 
-\subsection*{Question 4}
+\section*{Question 4}
 
 For a serial 2s complementer, the circuit can be implemented as follows:\\
 \(S_0 \) : We have not seen a 1 yet copy the input to the output 
@@ -894,6 +894,351 @@ The final equations for the flip flops can be obtained from kmaps as follows:
 \begin{equation}
     K_B = E
 \end{equation}
+
+
+\section*{Part 2}
+
+\subsection*{Question 1}
+The Vhdl code for the requested circuit can be written as follows:
+
+% import the code from code/1/JK_Latch.vhd
+
+\begin{center} % Center the entire code block
+    \lstset{
+  caption= JK\_LATCH.vhd, 
+  basicstyle=\footnotesize, frame=tb,
+  xleftmargin=.2\textwidth, xrightmargin=.2\textwidth
+}
+    \lstinputlisting[style=vhdlstyle]{code/1/JK_Latch.vhd}
+\end{center}
+
+The testbench for the requested circuit can be written as follows:
+
+% import the code from code/1/JK_Latch_tb.vhd
+
+\begin{center} % Center the entire code block
+    \lstset{
+  caption= JK\_LATCH\_tb.vhd, 
+  basicstyle=\footnotesize, frame=tb,
+  xleftmargin=.2\textwidth, xrightmargin=.2\textwidth
+}
+    \lstinputlisting[style=vhdlstyle]{code/1/JK_Latch_tb.vhd}
+\end{center}
+
+
+
+The RTL schematic for the requested circuit can be seen in Figure \ref{fig:jk_latch_rtl}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{img/1/rtl.png}
+    \caption{RTL Schematic for JK Latch}
+    \label{fig:jk_latch_rtl}
+\end{figure}
+
+
+
+The simulation results can be seen in Figure \ref{fig:jk_latch_sim}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{img/1/sim.png}
+    \caption{Simulation Results for JK Latch}
+    \label{fig:jk_latch_sim}
+\end{figure}
+
+
+\section*{Question 2}
+
+The Vhdl code for the requested circuit can be written as follows:
+
+% import the code from code/2/JK_FF.vhd
+
+\begin{center} % Center the entire code block
+    \lstset{
+  caption= JK\_FF.vhd, 
+  basicstyle=\footnotesize, frame=tb,
+  xleftmargin=.2\textwidth, xrightmargin=.2\textwidth
+}
+    \lstinputlisting[style=vhdlstyle]{code/2/JK_FF.vhd}
+\end{center}
+
+The testbench for the requested circuit can be written as follows:
+
+% import the code from code/2/JK_FF_tb.vhd
+
+\begin{center} % Center the entire code block
+    \lstset{
+  caption= JK\_FF\_tb.vhd, 
+  basicstyle=\footnotesize, frame=tb,
+  xleftmargin=.2\textwidth, xrightmargin=.2\textwidth
+}
+    \lstinputlisting[style=vhdlstyle]{code/2/JK_FF_tb.vhd}
+
+\end{center}
+
+The RTL schematic for the requested circuit can be seen in Figure \ref{fig:jk_ff_rtl}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{img/2/rtl.png}
+    \caption{RTL Schematic for JK Flip Flop}
+    \label{fig:jk_ff_rtl}
+
+\end{figure}
+
+The simulation results can be seen in Figure \ref{fig:jk_ff_sim}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{img/2/sim.png}
+    \caption{Simulation Results for JK Flip Flop}
+    \label{fig:jk_ff_sim}
+
+\end{figure}
+
+
+\section*{Question 3}
+
+\begin{figure}[H]
+    \begin{center}
+        \begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=3.5cm,
+            semithick]
+            % Define the states as nodes
+            \node[state] (S0)                  {S0};
+            \node[state] (S1) [right of=S0]    {S1};
+            \node[state] (S2) [below of=S1]    {S2};
+            \node[state] (S3) [right of=S2]    {S3};
+            \node[state] (S4) [below of=S0]    {S4};
+            \node[state] (S5) [below of=S4]    {S5};
+            \node[state] (S6) [right of=S5]    {S6};
+
+            % Connect the states with arrows
+            \path (S0) edge [bend left] node {10} (S1)
+                        edge [bend right] node [left] {11} (S4)
+                        edge [loop above] node {Others} (S0);
+
+            \path (S1) edge [bend left] node {10} (S2)
+                        edge [bend left] node [above] {Others} (S0);
+
+            \path (S2) edge [bend left] node {11} (S3)
+                        edge [bend left] node [right] {Others} (S0);
+
+            \path (S3) edge [loop right] node {Z=1, Reset} (S0);
+
+            \path (S4) edge [bend right] node {00} (S5)
+                        edge [bend right] node [right] {Others} (S0);
+
+            \path (S5) edge [bend right] node {01} (S6)
+                        edge [bend left] node [right] {Others} (S0);
+
+            \path (S6) edge [loop right] node {Z=1, Reset} (S0);
+            
+
+        \end{tikzpicture}
+    \end{center}
+    \caption{State Diagram for Pattern Detector}
+\end{figure}
+
+
+\begin{enumerate}
+    \item \textbf{S0}: Initial state (waiting for a valid start of a pattern).
+    \item \textbf{S1}: `10` detected (beginning of Pattern 1).
+    \item \textbf{S2}: `10-10` detected (middle of Pattern 1).
+    \item \textbf{S3}: `10-10-11` detected (Pattern 1 complete, \(Z = 1\)).
+    \item \textbf{S4}: `11` detected (beginning of Pattern 2).
+    \item \textbf{S5}: `11-00` detected (middle of Pattern 2).
+    \item \textbf{S6}: `11-00-01` detected (Pattern 2 complete, \(Z = 1\)).
+\end{enumerate}
+
+
+The VHDL code for the requested circuit can be written as follows:
+
+% import the code from code/3/Pattern_Detector.vhd
+
+\begin{center} % Center the entire code block
+    \lstset{
+  caption= Pattern\_Detector.vhd, 
+  basicstyle=\footnotesize, frame=tb,
+  xleftmargin=.2\textwidth, xrightmargin=.2\textwidth
+}
+    \lstinputlisting[style=vhdlstyle]{code/3/Pattern_Detector.vhd}
+
+\end{center}
+
+The testbench for the requested circuit can be written as follows:
+
+
+% import the code from code/3/Pattern_Detector_tb.vhd
+
+\begin{center} % Center the entire code block
+    \lstset{
+  caption= Pattern\_Detector\_tb.vhd, 
+  basicstyle=\footnotesize, frame=tb,
+  xleftmargin=.2\textwidth, xrightmargin=.2\textwidth
+}
+    \lstinputlisting[style=vhdlstyle]{code/3/Pattern_Detector_tb.vhd}
+
+\end{center}
+
+
+The RTL schematic for the requested circuit can be seen in Figure \ref{fig:pattern_detector_rtl}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{img/3/rtl.png}
+    \caption{RTL Schematic for Pattern Detector}
+    \label{fig:pattern_detector_rtl}
+
+\end{figure}
+
+The simulation results can be seen in Figure \ref{fig:pattern_detector_sim}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{img/3/sim.png}
+    \caption{Simulation Results for Pattern Detector}
+    \label{fig:pattern_detector_sim}
+\end{figure}
+
+
+
+\section*{Question 4}
+
+Assigning the states as follows:
+
+
+\begin{table}[H]
+    \centering
+    \caption{State and Assignment Table}
+    \begin{tabular}{|c|c|}
+        \hline
+        \textbf{State} & \textbf{$Q_2 Q_1 Q_0$} \\
+        \hline
+        $S_0$ & 000 \\
+        \hline
+        $S_1$ & 001 \\
+        \hline
+        $S_2$ & 010 \\
+        \hline
+        $S_3$ & 011 \\
+        \hline
+        $S_4$ & 100 \\
+        \hline
+        $S_5$ & 101 \\
+        \hline
+        $S_6$ & 110 \\
+        \hline
+    \end{tabular}
+\end{table}
+
+Using the excitation table of JK flip-flops, we can find the JK inputs for each state transition as follows:
+
+\begin{table}[H]
+    \centering
+    \caption{JK Flip-Flop Excitation Table}
+    \begin{tabular}{|c|c|c|c|}
+        \hline
+        Present State & Next State & J & K \\
+        \hline
+        0 & 0 & 0 & X \\
+        0 & 1 & 1 & X \\
+        1 & 0 & X & 1 \\
+        1 & 1 & X & 0 \\
+        \hline
+    \end{tabular}
+\end{table}
+
+
+
+\begin{table}[H]
+    \centering
+    \renewcommand{\arraystretch}{1.5}
+    \begin{tabular}{|c|c|c|c|c|c|c|}
+    \hline
+    \textbf{Current} $(Q_2 Q_1 Q_0)$ & \textbf{Input} $(A_1 A_0)$ & \textbf{Next} $(Q_2^+ Q_1^+ Q_0^+)$ & \textbf{Z} & $(J_2, K_2)$ & $(J_1, K_1)$ & $(J_0, K_0)$ \\ \hline
+    $000~(S0)$ & $10$ & $001~(S1)$ & $0$ & $(0, X)$ & $(0, X)$ & $(1, X)$ \\ \hline
+    $000~(S0)$ & $11$ & $100~(S4)$ & $0$ & $(1, X)$ & $(0, X)$ & $(0, X)$ \\ \hline
+    $000~(S0)$ & Others & $000~(S0)$ & $0$ & $(0, X)$ & $(0, X)$ & $(0, X)$ \\ \hline
+    $001~(S1)$ & $10$ & $010~(S2)$ & $0$ & $(0, X)$ & $(1, X)$ & $(X, 1)$ \\ \hline
+    $001~(S1)$ & Others & $000~(S0)$ & $0$ & $(0, X)$ & $(0, X)$ & $(X, 1)$ \\ \hline
+    $010~(S2)$ & $11$ & $011~(S3)$ & $1$ & $(0, X)$ & $(X, 0)$ & $(1, X)$ \\ \hline
+    $010~(S2)$ & Others & $000~(S0)$ & $0$ & $(0, X)$ & $(X, 1)$ & $(0, X)$ \\ \hline
+    $011~(S3)$ & Any & $000~(S0)$ & $0$ & $(0, X)$ & $(X, 1)$ & $(X, 1)$ \\ \hline
+    $100~(S4)$ & $00$ & $101~(S5)$ & $0$ & $(X, 0)$ & $(0, X)$ & $(1, X)$ \\ \hline
+    $100~(S4)$ & Others & $000~(S0)$ & $0$ & $(X, 1)$ & $(0, X)$ & $(0, X)$ \\ \hline
+    $101~(S5)$ & $01$ & $110~(S6)$ & $1$ & $(X, 0)$ & $(1, X)$ & $(X, 1)$ \\ \hline
+    $101~(S5)$ & Others & $000~(S0)$ & $0$ & $(X, 1)$ & $(0, X)$ & $(X, 1)$ \\ \hline
+    $110~(S6)$ & Any & $000~(S0)$ & $0$ & $(X, 1)$ & $(X, 1)$ & $(0, X)$ \\ \hline
+    \end{tabular}
+    \caption{State Transition Table with JK Inputs}
+    \label{tab:state-transition}
+    \end{table}
+    
+    
+The expressions were simplified and the results are
+\[
+\begin{aligned}
+J_{2} &= \overline{Q_{2}}\,\overline{Q_{1}}\,\overline{Q_{0}}\,A_{1}\,A_{0},\\
+K_{2} &= (Q_{2}Q_{1}) + (Q_{2}\,\overline{Q_{1}}\,\overline{Q_{0}}\,(A_{1}+A_{0})) + (Q_{2}\,\overline{Q_{1}}\,Q_{0}\,(A_{1}+\overline{A_{0}})),\\
+J_{1} &= \overline{Q_{1}}\,Q_{0}\,\bigl(\overline{Q_{2}}\,A_{1}\,\overline{A_{0}} + Q_{2}\,\overline{A_{1}}\,A_{0}\bigr),\\
+K_{1} &= \overline{Q_{2}}\,Q_{1}\,\overline{Q_{0}}\,(\overline{A_{1}}+\overline{A_{0}}) + \overline{Q_{2}}\,Q_{1}\,Q_{0} + Q_{2}\,Q_{1}\,\overline{Q_{0}},\\
+J_{0} &= \overline{Q_{2}}\,\overline{Q_{1}}\,\overline{Q_{0}}\,A_{1}\,\overline{A_{0}} + \overline{Q_{2}}\,Q_{1}\,\overline{Q_{0}}\,A_{1}\,A_{0} + Q_{2}\,\overline{Q_{1}}\,\overline{Q_{0}}\,\overline{A_{1}}\,\overline{A_{0}},\\
+K_{0} &= \overline{Q_{2}}\,\overline{Q_{1}}\,Q_{0}\,(\overline{A_{1}}+A_{0}) + \overline{Q_{2}}\,Q_{1}\,Q_{0} + Q_{2}\,\overline{Q_{1}}\,Q_{0},\\
+Z &= \overline{Q_{2}}\,Q_{1}\,\overline{Q_{0}}\,A_{1}\,A_{0} + Q_{2}\,\overline{Q_{1}}\,Q_{0}\,\overline{A_{1}}\,A_{0}.
+\end{aligned}
+\]
+
+The vhdl code for the requested circuit can be written as follows:
+
+% import the code from code/4/Pattern_Detector_JK_FF.vhd
+
+\begin{center} % Center the entire code block
+    \lstset{
+  caption= Pattern\_Detector\_JK\_FF.vhd, 
+  basicstyle=\footnotesize, frame=tb,
+  xleftmargin=.2\textwidth, xrightmargin=.2\textwidth
+}
+    \lstinputlisting[style=vhdlstyle]{code/4/Pattern_Detector_JK_FF.vhd}
+
+\end{center}
+
+The testbench for the requested circuit can be written as follows:
+
+% import the code from code/4/Pattern_Detector_JK_FF_tb.vhd
+
+\begin{center} % Center the entire code block
+    \lstset{
+  caption= Pattern\_Detector\_JK\_FF\_tb.vhd, 
+  basicstyle=\footnotesize, frame=tb,
+  xleftmargin=.2\textwidth, xrightmargin=.2\textwidth
+}
+    \lstinputlisting[style=vhdlstyle]{code/4/Pattern_Detector_JK_FF_tb.vhd}
+
+\end{center}
+
+
+The RTL schematic for the requested circuit can be seen in Figure \ref{fig:pattern_detector_jk_ff_rtl}.
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{img/4/rtl.png}
+    \caption{RTL Schematic for Pattern Detector with JK Flip-Flops}
+    \label{fig:pattern_detector_jk_ff_rtl}
+\end{figure}
+
+The simulation results can be seen in Figure \ref{fig:pattern_detector_jk_ff_sim}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{img/4/sim.png}
+    \caption{Simulation Results for Pattern Detector with JK Flip-Flops}
+    \label{fig:pattern_detector_jk_ff_sim}
+\end{figure}
+
+
+
 
 \end{document}
 
